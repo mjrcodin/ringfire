@@ -19,10 +19,11 @@
   },
   "homepage": "https://github.com/mjrcodin/ringfire#readme",
   "dependencies": {
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6",
-    "dotenv": "^8.2.0"
+    "nodemon": "^2.0.6"
+
   }
 }
