@@ -1,62 +1,33 @@
 require('dotenv').config()
-let http = require('http')
-var path = require('path');
-var fs = require('fs');
-let router = require('./router')
-var dir = path.join(__dirname, 'public');
 
-var mime = {
-    html: 'text/html',
-    txt: 'text/plain',
-    css: 'text/css',
-    gif: 'image/gif',
-    jpg: 'image/jpeg',
-    png: 'image/png',
-    svg: 'image/svg+xml',
-    js: 'application/javascript'
-};
+let fs = require('fs')
+let path = require('path')
+let cors = require('cors')
 
-let PORT = process.env.PORT || 3000
-let HOST = process.env.HOST || 'localhost'
+let express = require('express')
+let app = express()
 
-let server = http.createServer((req,res)=>{
+let apiv1 = require('./app/apiv1')
+let web = require('./app/web')
+let error = require('./app/error')
 
-    if(req.method == 'GET'){
+let abs = path.resolve(__dirname, 'app','web', 'public', 'index.html')
+let index = fs.readFileSync(abs,'utf8')
 
-        var reqpath = req.url.toString().split('?')[0];
-
-        var file = path.join(dir, reqpath.replace(/\/$/, '/index.html'));
-        if (file.indexOf(dir + path.sep) !== 0) {
-            res.statusCode = 403;
-            res.setHeader('Content-Type', 'text/plain');
-            return res.end('Forbidden');
-        }
-        var type = mime[path.extname(file).slice(1)] || 'text/plain';
-        var s = fs.createReadStream(file);
-        s.on('open', function () {
-            res.setHeader('Content-Type', type);
-            s.pipe(res);
-        });
-        s.on('error', function () {
-            res.setHeader('Content-Type', 'text/plain');
-            res.statusCode = 404;
-            res.end('Not found');
-        });
-
-    }
-    if(req.method == 'POST'){
-        req.data = ''
-        req.on('data', chunk => {
-            req.data += chunk.toString()
-        })
-        req.on('end', ()=>{
-            router(req,res)
-        })
-
-    }
-
+cors()
+app.use(cors())
+app.use(express.static('./app/web/public'))
+app.use(express.json())
+app.use((req,res,next)=>{
+    console.log('logging...')
+    console.log(req.method,req.url, req.body) 
+    next()
 })
 
-server.listen(PORT,()=>{
-    console.log(`Listening on ${HOST}:${PORT}`)
+app.use('/apiv1', apiv1)
+app.use('/', (req,res)=>res.send(index))
+app.use((req,res,next)=>res.send('<h1>Resource Not Found</h1>'))
+
+app.listen(8080, ()=>{
+    console.log('listening on 8080')
 })
