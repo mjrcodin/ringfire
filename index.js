@@ -3,7 +3,7 @@ require('dotenv').config()
 let fs = require('fs')
 let path = require('path')
 let cors = require('cors')
-
+const PORT = process.env.PORT || 8080
 let express = require('express')
 let app = express()
 
@@ -26,6 +26,6 @@ app.use('/apiv1', apiv1)
 app.use('/', (req,res)=>res.send(ringfire))
 app.use((req,res,next)=>res.send('<h1>Resource Not Found</h1>'))
 
-app.listen(8080, ()=>{
-    console.log('listening on 8080')
+app.listen(PORT, ()=>{
+    console.log(`listening on ${PORT}`)
 })
