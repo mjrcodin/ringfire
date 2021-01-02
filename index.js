@@ -7,16 +7,14 @@ let cors = require('cors')
 let express = require('express')
 let app = express()
 
-let apiv1 = require('./app/apiv1')
-let web = require('./app/web')
-let error = require('./app/error')
+let apiv1 = require('./apiv1')
 
-let abs = path.resolve(__dirname, 'app','web', 'public', 'index.html')
-let index = fs.readFileSync(abs,'utf8')
+let abs = path.resolve(__dirname, 'public','index.html')
+let ringfire = fs.readFileSync(abs,'utf8')
 
 cors()
 app.use(cors())
-app.use(express.static('./app/web/public'))
+app.use(express.static('./public'))
 app.use(express.json())
 app.use((req,res,next)=>{
     console.log('logging...')
@@ -25,7 +23,7 @@ app.use((req,res,next)=>{
 })
 
 app.use('/apiv1', apiv1)
-app.use('/', (req,res)=>res.send(index))
+app.use('/', (req,res)=>res.send(ringfire))
 app.use((req,res,next)=>res.send('<h1>Resource Not Found</h1>'))
 
 app.listen(8080, ()=>{
