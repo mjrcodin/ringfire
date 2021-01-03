@@ -1,5 +1,40 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["main"],{
 
+/***/ "/BZI":
+/*!**********************************!*\
+  !*** ./src/app/words.service.ts ***!
+  \**********************************/
+/*! exports provided: WordsService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WordsService", function() { return WordsService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "tk/3");
+
+
+
+class WordsService {
+    constructor(http) {
+        this.http = http;
+    }
+    getWords() {
+        return this.http.get("https://ringfireio-stg.herokuapp.com/apiv1/words");
+    }
+}
+WordsService.ɵfac = function WordsService_Factory(t) { return new (t || WordsService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"])); };
+WordsService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: WordsService, factory: WordsService.ɵfac, providedIn: 'root' });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](WordsService, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return [{ type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"] }]; }, null); })();
+
+
+/***/ }),
+
 /***/ 0:
 /*!***************************!*\
   !*** multi ./src/main.ts ***!
@@ -36,42 +71,6 @@ const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
-
-
-/***/ }),
-
-/***/ "R7Hv":
-/*!*********************************!*\
-  !*** ./src/app/data.service.ts ***!
-  \*********************************/
-/*! exports provided: DataService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DataService", function() { return DataService; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "tk/3");
-
-
-
-class DataService {
-    constructor(httpClient) {
-        this.httpClient = httpClient;
-        this.api = 'https://ringfireio-stg.herokuapp.com/hangman/apiv1/words';
-    }
-    getWord() {
-        return this.httpClient.get(this.api, { responseType: 'json' });
-    }
-}
-DataService.ɵfac = function DataService_Factory(t) { return new (t || DataService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"])); };
-DataService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: DataService, factory: DataService.ɵfac, providedIn: 'root' });
-/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](DataService, [{
-        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
-        args: [{
-                providedIn: 'root'
-            }]
-    }], function () { return [{ type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"] }]; }, null); })();
 
 
 /***/ }),
@@ -321,7 +320,7 @@ AppRoutingModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineI
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HangmanComponent", function() { return HangmanComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _data_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../data.service */ "R7Hv");
+/* harmony import */ var _words_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../words.service */ "/BZI");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "ofXK");
 
 
@@ -373,8 +372,8 @@ function HangmanComponent_div_26_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
 class HangmanComponent {
-    constructor(api) {
-        this.api = api;
+    constructor(WordsService) {
+        this.WordsService = WordsService;
         this.const = 'bcdfghjklmnpqrstvwxyz';
         this.vowel = 'aeiou';
         this.playing = false;
@@ -397,10 +396,9 @@ class HangmanComponent {
         ];
     }
     ngOnInit() {
-        this.api.getWord().subscribe((data) => {
-            //this.word = data['words'][Math.floor(Math.random() * this.words.length) + 1 ];
-            this.words = data['words'];
+        this.WordsService.getWords().subscribe((data) => {
             console.log(data);
+            this.words = data["words"];
         });
         this.startGame();
     }
@@ -527,7 +525,7 @@ class HangmanComponent {
         };
     }
 }
-HangmanComponent.ɵfac = function HangmanComponent_Factory(t) { return new (t || HangmanComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"])); };
+HangmanComponent.ɵfac = function HangmanComponent_Factory(t) { return new (t || HangmanComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_words_service__WEBPACK_IMPORTED_MODULE_1__["WordsService"])); };
 HangmanComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: HangmanComponent, selectors: [["hangman"]], decls: 28, vars: 6, consts: [["id", "main", 1, "main", "cont"], ["id", "game"], ["id", "stats"], ["id", "title"], ["id", "timer"], ["id", "turns"], ["id", "animate"], ["id", "noose"], ["id", "imgNoose", "src", "/assets/noose.png", "alt", ""], ["id", "face"], ["id", "imgFace", "src", "/assets/zero.png", "alt", ""], [1, "info"], ["text", "12345", 1, "vowel"], ["id", "vowel", "readonly", "", 1, "letters", 3, "value"], [1, "const"], ["id", "const", "readonly", "", 1, "letters", 3, "value"], ["id", "word"], [4, "ngFor", "ngForOf"], [4, "ngIf"], [1, "ltr"], [1, "hidden", "ltr1"], [3, "click"]], template: function HangmanComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
@@ -594,7 +592,7 @@ HangmanComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineC
                 templateUrl: './hangman.component.html',
                 styleUrls: ['./hangman.component.css']
             }]
-    }], function () { return [{ type: _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] }]; }, null); })();
+    }], function () { return [{ type: _words_service__WEBPACK_IMPORTED_MODULE_1__["WordsService"] }]; }, null); })();
 
 
 /***/ }),
