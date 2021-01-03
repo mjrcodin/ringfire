@@ -18,9 +18,18 @@ __webpack_require__.r(__webpack_exports__);
 class WordsService {
     constructor(http) {
         this.http = http;
+        this.ENV = 'prod';
+        this.url = this.getUrl();
     }
     getWords() {
-        return this.http.get("https://ringfireio-stg.herokuapp.com/apiv1/words");
+        return this.http.get(this.url + "/apiv1/words");
+    }
+    getUrl() {
+        let urls = {
+            stg: "https://ringfireio-stg.herokuapp.com",
+            prod: "https://www.ringfireio.io"
+        };
+        return urls[this.ENV];
     }
 }
 WordsService.ɵfac = function WordsService_Factory(t) { return new (t || WordsService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"])); };
