@@ -400,7 +400,7 @@ class HangmanComponent {
         this.api.getWord().subscribe((data) => {
             //this.word = data['words'][Math.floor(Math.random() * this.words.length) + 1 ];
             this.words = data['words'];
-            console.log(this.word);
+            console.log(data);
         });
         this.startGame();
     }
