@@ -18,16 +18,18 @@ __webpack_require__.r(__webpack_exports__);
 class WordsService {
     constructor(http) {
         this.http = http;
-        this.ENV = 'prod';
+        this.ENV = 'me';
         this.url = this.getUrl();
     }
     getWords() {
+        console.log(this.url + "/apiv1/words");
         return this.http.get(this.url + "/apiv1/words");
     }
     getUrl() {
         let urls = {
             stg: "https://ringfireio-stg.herokuapp.com",
-            prod: "https://www.ringfireio.io"
+            prod: "https://ringfire-prod.herokuapp.com",
+            me: "https://www.ringfire.io"
         };
         return urls[this.ENV];
     }
