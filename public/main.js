@@ -58,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 class DataService {
     constructor(httpClient) {
         this.httpClient = httpClient;
-        this.api = 'https://ringfireio-stg.herokuapp.com/hangman/apiv1/words';
+        this.api = '/hangman/apiv1/words';
     }
     getWord() {
         return this.httpClient.get(this.api);
