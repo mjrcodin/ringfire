@@ -61,7 +61,7 @@ class DataService {
         this.api = 'https://ringfireio-stg.herokuapp.com/hangman/apiv1/words';
     }
     getWord() {
-        return this.httpClient.get(this.api, { responseType: 'text' });
+        return this.httpClient.get(this.api, { responseType: 'json' });
     }
 }
 DataService.ɵfac = function DataService_Factory(t) { return new (t || DataService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"])); };
